@@ -3,7 +3,7 @@ Flips punctuation for RTL languages (tested only with Hebrew). To be used on pro
 
 Use: python flip_subs.py \<input file path\> \<output file path\>
 
-This script should deal with double brackets, blocks such as "<i>" and "<b>", and ignore non subtitle lines in the srt file.
+This script should deal with double brackets, blocks such as "\<i\>" and "\<b\>", and ignore non subtitle lines in the srt file.
 Note: I use 'latin-1' instead of 'utf-8' because python seems to have some problems wit certain characters, and since the actual script doesn't care which encoding is used.
   
 
