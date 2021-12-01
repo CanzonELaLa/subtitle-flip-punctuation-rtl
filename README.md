@@ -9,8 +9,9 @@ Note: I use 'latin-1' instead of 'utf-8' because python seems to have some probl
   
 
 Example:
-  input:
-  ```
+
+Input:
+```
   1
 00:00:07,100 --> 00:00:09,510
 <i>בעונה הקודמת של
@@ -53,6 +54,7 @@ Example:
 טוב, נו, אל תחגגי:
 ```
 
+Output:
 ```
 1
 00:00:07,100 --> 00:00:09,510
