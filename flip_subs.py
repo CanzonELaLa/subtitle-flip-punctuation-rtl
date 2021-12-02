@@ -1,7 +1,9 @@
+# Written by CanzonELaLa
+
 import sys
 
 PUNCTUATION = ["\"", "'", ",", ".", "?", "!", ":", "`", "-", " "]
-BEGINING_PUNCTUATION = ["\"", "-", " "]
+BEGINING_PUNCTUATION = ["\"", "-", "'", ",", ".", "?", "!", ":", "`", "-", " "]
 CHOPPED = ["<i>", "</i>", "<b>", "</b>", "<u>", "</u>"]
 
 def print_part(part):
