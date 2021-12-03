@@ -11,7 +11,7 @@ Note: I use 'latin-1' instead of 'utf-8' because python seems to have some probl
 
 Create a script file with the following content:
 
-```
+```batch
 @echo off
 cls
 <python exe path> <script path> %1 %1
@@ -28,7 +28,7 @@ Now when right clicking a subtitle file, in the "Send To" menu, the new script s
 
 Input:
 ```
-  1
+1
 00:00:07,100 --> 00:00:09,510
 <i>בעונה הקודמת של
 מסע בין כוכבים: "דיסקברי</i>"
