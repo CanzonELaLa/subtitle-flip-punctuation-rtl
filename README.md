@@ -6,6 +6,22 @@ Use: python flip_subs.py \<input file path\> \<output file path\>
 This script should deal with double brackets, blocks such as "\<i\>" and "\<b\>", and ignore non subtitle lines in the srt file.
 
 Note: I use 'latin-1' instead of 'utf-8' because python seems to have some problems with certain characters, and since the actual script doesn't care which encoding is used.
+
+Utilty (for windows 7 and above):
+
+Create a script file with the following content:
+
+```
+@echo off
+cls
+<python exe path> <script path> %1 %1
+```
+
+Name the file "Flip Punctuation.cmd"
+
+Place the file in `C:\Users\<user name>\AppData\Roaming\Microsoft\Windows\SendTo`
+
+Now when right clicking a subtitle file, in the "Send To" menu, the new script should appear. Using it will run the script in place on the selected file.
   
 
 Example:
