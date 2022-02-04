@@ -1,9 +1,13 @@
-# Written by CanzonELaLa
+# Written by CanzonE
 
 import sys
 
-PUNCTUATION = ["\"", "'", ",", ".", "?", "!", ":", "`", "-", " ", "(", ")"]
-BEGINING_PUNCTUATION = ["\"", "-", "'", ",", ".", "?", "!", ":", "`", "-", " ", "(", ")"]
+ENDING_PUNCTUATION_DICT = {"\"": "\"", "'": "'", ",": ",", ".": ".", "?": "?", "!": "!",
+                           ":": ":", "`": "`", "-": "-", " ": " ", "(": ")", ")": "(",
+                           "<": ">", ">": "<", "[": "]", "]": "["}
+BEGINING_PUNCTUATION_DICT = {"\"": "\"", "-": "-", "'": "'", ",": ",", ".": ".", "?": "?",
+                             "!": "!", ":": ":", "`": "`", "-": "-", " ": " ", "(": ")", ")": "(",
+                             "<": ">", ">": "<", "[": "]", "]": "["}
 CHOPPED = ["<i>", "</i>", "<b>", "</b>", "<u>", "</u>"]
 
 def print_part(part):
@@ -30,22 +34,14 @@ def flip_punctuation(line):
     working_line = line
     to_add_end = []
     to_add_begining = []
-    while working_line[-1] in PUNCTUATION:
+    while working_line[-1] in ENDING_PUNCTUATION_DICT.keys():
         punctuation = working_line[-1]
-        if punctuation == "(":
-            punctuation = ")"
-        elif punctuation == ")":
-            punctuation = "("
-        to_add_end.append(punctuation)
+        to_add_end.append(ENDING_PUNCTUATION_DICT[punctuation])
         working_line = working_line[0:len(working_line)-1]
         
-    while working_line[0] in BEGINING_PUNCTUATION:
+    while working_line[0] in BEGINING_PUNCTUATION_DICT.keys():
         punctuation = working_line[0]
-        if punctuation == "(":
-            punctuation = ")"
-        elif punctuation == ")":
-            punctuation = "("
-        to_add_begining.append(punctuation)
+        to_add_begining.append(BEGINING_PUNCTUATION_DICT[punctuation])
         working_line = working_line[1:len(working_line)]
         
     to_add_end.reverse()
