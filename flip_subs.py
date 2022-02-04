@@ -2,8 +2,8 @@
 
 import sys
 
-PUNCTUATION = ["\"", "'", ",", ".", "?", "!", ":", "`", "-", " "]
-BEGINING_PUNCTUATION = ["\"", "-", "'", ",", ".", "?", "!", ":", "`", "-", " "]
+PUNCTUATION = ["\"", "'", ",", ".", "?", "!", ":", "`", "-", " ", "(", ")"]
+BEGINING_PUNCTUATION = ["\"", "-", "'", ",", ".", "?", "!", ":", "`", "-", " ", "(", ")"]
 CHOPPED = ["<i>", "</i>", "<b>", "</b>", "<u>", "</u>"]
 
 def print_part(part):
@@ -32,11 +32,19 @@ def flip_punctuation(line):
     to_add_begining = []
     while working_line[-1] in PUNCTUATION:
         punctuation = working_line[-1]
+        if punctuation == "(":
+            punctuation = ")"
+        elif punctuation == ")":
+            punctuation = "("
         to_add_end.append(punctuation)
         working_line = working_line[0:len(working_line)-1]
         
     while working_line[0] in BEGINING_PUNCTUATION:
         punctuation = working_line[0]
+        if punctuation == "(":
+            punctuation = ")"
+        elif punctuation == ")":
+            punctuation = "("
         to_add_begining.append(punctuation)
         working_line = working_line[1:len(working_line)]
         
