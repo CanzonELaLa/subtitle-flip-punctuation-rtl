@@ -2,13 +2,10 @@
 
 import sys
 
-ENDING_PUNCTUATION_DICT = {"\"": "\"", "'": "'", ",": ",", ".": ".", "?": "?", "!": "!",
-                           ":": ":", "`": "`", "-": "-", " ": " ", "(": ")", ")": "(",
-                           "<": ">", ">": "<", "[": "]", "]": "["}
-BEGINING_PUNCTUATION_DICT = {"\"": "\"", "-": "-", "'": "'", ",": ",", ".": ".", "?": "?",
-                             "!": "!", ":": ":", "`": "`", "-": "-", " ": " ", "(": ")", ")": "(",
-                             "<": ">", ">": "<", "[": "]", "]": "["}
-CHOPPED = ["<i>", "</i>", "<b>", "</b>", "<u>", "</u>"]
+PUNCTUATION_DICT = {"\"": "\"", "'": "'", ",": ",", ".": ".", "?": "?", "!": "!",
+                    ":": ":", "`": "`", "-": "-", " ": " ", "(": ")", ")": "(",
+                    "<": ">", ">": "<", "[": "]", "]": "["}
+CHOPPED = ["<i>", "</i>", "<b>", "</b>", "<u>", "</u>", "- ", " -"]
 NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 NUMBERS_SEPARATOR = ","
 
@@ -33,10 +30,16 @@ def split_lines(lines):
     return parts
     
 def should_skip_number_flipping(line):
-    if (line[-1] in ENDING_PUNCTUATION_DICT.keys() or line[-1] in BEGINING_PUNCTUATION_DICT.keys() or line[-1] in NUMBERS) and \
-        (line[0] in ENDING_PUNCTUATION_DICT.keys() or line[0] in BEGINING_PUNCTUATION_DICT.keys() or line[0] in NUMBERS):
+    if (line[-1] in PUNCTUATION_DICT.keys() or line[-1] in NUMBERS) and \
+        (line[0] in PUNCTUATION_DICT.keys() or line[0] in NUMBERS):
         return True
     return False
+    
+def should_skip_line(line):
+    for letter in line:
+        if letter not in PUNCTUATION_DICT.keys() and line[-1] not in NUMBERS:
+            return False
+    return True
         
 def flip_punctuation(line):
     should_skip_numbers = should_skip_number_flipping(line)
@@ -44,14 +47,14 @@ def flip_punctuation(line):
     to_add_end = []
     to_add_begining = []
     numbers_cache = ""
-    
+        
     def should_continue_searching_for_numbers_end(working_line):
         return working_line[-1] in NUMBERS or (working_line[-1] == NUMBERS_SEPARATOR and len(working_line) > 1 and working_line[-2] in NUMBERS and len(numbers_cache) > 0)
         
     def should_continue_searching_for_numbers_begining(working_line):
         return working_line[0] in NUMBERS or (working_line[0] == NUMBERS_SEPARATOR and len(working_line) > 1 and working_line[1] in NUMBERS and len(numbers_cache) > 0)
     
-    while len(working_line) > 0 and (working_line[-1] in ENDING_PUNCTUATION_DICT.keys() or working_line[-1] in NUMBERS):
+    while len(working_line) > 0 and (working_line[-1] in PUNCTUATION_DICT.keys() or working_line[-1] in NUMBERS):
         if len(numbers_cache) > 0 and not should_continue_searching_for_numbers_end(working_line):
             if should_skip_numbers:
                 break
@@ -64,14 +67,14 @@ def flip_punctuation(line):
             numbers_cache += working_line[-1]
         else:
             punctuation = working_line[-1]
-            to_add_end.append(ENDING_PUNCTUATION_DICT[punctuation])
+            to_add_end.append(PUNCTUATION_DICT[punctuation])
         working_line = working_line[0:len(working_line)-1]
         
     if len(numbers_cache) > 0:
         to_add_end.append(numbers_cache)
         numbers_cache = ""
         
-    while len(working_line) > 0 and (working_line[0] in BEGINING_PUNCTUATION_DICT.keys() or working_line[0] in NUMBERS):
+    while len(working_line) > 0 and (working_line[0] in PUNCTUATION_DICT.keys() or working_line[0] in NUMBERS):
         if len(numbers_cache) > 0 and not should_continue_searching_for_numbers_begining(working_line):
             if should_skip_numbers:
                 break
@@ -84,7 +87,7 @@ def flip_punctuation(line):
             numbers_cache += working_line[0]
         else:
             punctuation = working_line[0]
-            to_add_begining.append(BEGINING_PUNCTUATION_DICT[punctuation])
+            to_add_begining.append(PUNCTUATION_DICT[punctuation])
         working_line = working_line[1:len(working_line)]
         
     if len(numbers_cache) > 0:
@@ -98,6 +101,7 @@ def flip_punctuation(line):
     to_add_begining.reverse()
     for add in to_add_begining:
         working_line = working_line + add
+
     return working_line
     
 def process_part(part):
